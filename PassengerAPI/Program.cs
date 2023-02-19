@@ -1,7 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using HotelBookingAPI.Data;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using HotelBookingAPI.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,11 +22,13 @@ builder.Services.AddSwaggerGen();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+#if DEBUG
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+#endif
 
 app.UseHttpsRedirection();
 
@@ -36,3 +37,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+// /curl -X 'POST' \
+//  'https://localhost:7106/api/Passenger/CreateRandom' \
+//  -H 'accept: */*' \
+//  -d ''

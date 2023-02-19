@@ -13,7 +13,7 @@ namespace HotelBookingAPI.Models
     public enum State
     {
         HaveIdeaState,
-        ToAirportState,
+        BuyTicketState,
         //TODO: add more states
     }
 
@@ -27,7 +27,7 @@ namespace HotelBookingAPI.Models
         public bool? Bagage { get; set; }
         public Prompt? Request { get; set; }
 
-        [Range(0,5)]
+        [Range(0,6)]
         public State State { get; set; }
 
         #region CTORS
