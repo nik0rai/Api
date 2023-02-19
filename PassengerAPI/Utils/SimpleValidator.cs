@@ -1,4 +1,9 @@
-﻿namespace HotelBookingAPI.Utils
+﻿using HotelBookingAPI.Data;
+using HotelBookingAPI.Models;
+using Microsoft.AspNetCore.Mvc;
+using System.Net;
+
+namespace HotelBookingAPI.Utils
 {
     public static class SimpleValidator
     {
@@ -60,6 +65,29 @@
                 : true;
 
             return result;
+        }
+        public static ActionResult CheckDuplicate(ControllerBase model, ApiContext context, ref Passenger passenger)
+        {
+            var orginal = context.Passengers.Find(passenger.guid);
+
+            if (orginal != null)
+            {             
+                return model.Conflict(new { message = $"An existing record with the id '{passenger.guid}' is already exists." });
+            }
+
+            return model.Ok();
+        }
+
+        public static ActionResult CheckNotFound(ControllerBase model, ApiContext context, Guid passenger)
+        {
+            var orginal = context.Passengers.Find(passenger);
+
+            if (orginal != null)
+            {
+                return model.NotFound(new { message = $"Passenger with id = '{passenger}' doesn`t exist." });
+            }
+
+            return model.Ok(orginal);
         }
     }
 }
